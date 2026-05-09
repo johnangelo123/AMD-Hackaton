@@ -2,8 +2,6 @@
 
 **An AI-Powered Academic Extraction Suite built for the AMD Developer Cloud Hackathon.**
 
-[Live Demo] (Insert your Streamlit Link Here) | [Demo Video] (Insert your YouTube/Drive Link Here)
-
 ## The Problem
 Students spend hours at the start of every semester manually copying deadlines from messy PDF syllabi into their calendars and building flashcards for core concepts. 
 
