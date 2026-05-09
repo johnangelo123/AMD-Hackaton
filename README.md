@@ -17,7 +17,7 @@ We bypassed standard cloud APIs to build a fully local, privacy-first AI pipelin
 * **Inference Server:** Dockerized environment running `vLLM` for high-throughput, low-latency API requests.
 * **Frontend:** Built entirely in Python using `Streamlit`.
 
-## 🚧 Known Limitations & V2 Roadmap
+## Known Limitations & V2 Roadmap
 **Current Limitation:** For this MVP, Llama 3 acts as our sole extraction engine. Because it is a text-only model, it relies on `PyPDF2` to scrape text, meaning it struggles with image-heavy or scanned syllabi.
 **V2 Architecture:** We plan to implement a Multi-Agent system. We will deploy a Vision-Language Model (VLM) alongside Llama 3 to act as an OCR pre-processor, allowing the app to ingest any document format flawlessly.
 
