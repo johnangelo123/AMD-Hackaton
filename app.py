@@ -7,7 +7,6 @@ import json
 import re
 from dotenv import load_dotenv
 import base64
-from openai import OpenAI
 
 client = OpenAI(
     base_url="http://134.199.196.135:8000/v1", 
