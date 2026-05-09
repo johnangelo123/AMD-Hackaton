@@ -5,16 +5,42 @@ import csv
 import io
 import json
 import re
-from dotenv import load_dotenv
 import base64
+import requests
+from dotenv import load_dotenv
 
-client = OpenAI(
-    base_url="http://134.199.196.135:8000/v1", 
-    api_key="sk-no-key-required"
-)
 load_dotenv()
 
+LLAMA3_BASE_URL = os.getenv("LLAMA3_BASE_URL", "http://134.199.196.135:8000/v1")
+LLAMA3_API_KEY = os.getenv("LLAMA3_API_KEY", "sk-no-key-required")
 MODEL_NAME = 'meta-llama/Meta-Llama-3-8B-Instruct'
+
+
+def llama3_chat_completion(prompt, model=MODEL_NAME, max_tokens=1500):
+    url = LLAMA3_BASE_URL.rstrip("/") + "/chat/completions"
+    headers = {"Content-Type": "application/json"}
+    if LLAMA3_API_KEY:
+        headers["Authorization"] = f"Bearer {LLAMA3_API_KEY}"
+
+    payload = {
+        "model": model,
+        "messages": [{"role": "user", "content": prompt}],
+        "max_tokens": max_tokens,
+    }
+
+    response = requests.post(url, json=payload, headers=headers, timeout=120)
+    response.raise_for_status()
+    data = response.json()
+
+    if "choices" in data and data["choices"]:
+        choice = data["choices"][0]
+        if isinstance(choice, dict):
+            if "message" in choice and isinstance(choice["message"], dict) and "content" in choice["message"]:
+                return choice["message"]["content"]
+            if "text" in choice:
+                return choice["text"]
+
+    raise ValueError(f"Unexpected response from the Llama 3 server: {data}")
 
 def normalize_anki_text(raw_text):
     normalized_lines = []
@@ -857,12 +883,7 @@ Extract all deadlines from syllabus:
             """, unsafe_allow_html=True)
 
             try:
-                response = client.chat.completions.create(
-                    model=MODEL_NAME,
-                    messages=[{"role": "user", "content": prompt}],
-                    max_tokens=1500
-                )
-                ai_csv_data = response.choices[0].message.content
+                ai_csv_data = llama3_chat_completion(prompt, model=MODEL_NAME, max_tokens=1500)
 
                 status_analyze.empty()
                 st.success("✓ Schedule extracted successfully — ready to download")
@@ -1001,12 +1022,7 @@ Syllabus Text:
 """ + syllabus_text
 
                 try:
-                    flashcard_response = client.chat.completions.create(
-                        model=MODEL_NAME,
-                        messages=[{"role": "user", "content": flashcard_prompt}],
-                        max_tokens=4000
-                    )
-                    flashcard_csv_data = flashcard_response.choices[0].message.content
+                    flashcard_csv_data = llama3_chat_completion(flashcard_prompt, model=MODEL_NAME, max_tokens=4000)
                     flashcard_text = parse_flashcard_text(flashcard_csv_data)
 
                     if not flashcard_text:
