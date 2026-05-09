@@ -1,1 +1,1 @@
-# AMD-Hackaton
+# Syllabus-to-Study Agent
