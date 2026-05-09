@@ -1,6 +1,5 @@
 import streamlit as st
 import PyPDF2
-import google.genai as genai
 import os
 import csv
 import io
