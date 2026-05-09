@@ -6,7 +6,7 @@
 Students spend hours at the start of every semester manually copying deadlines from messy PDF syllabi into their calendars and building flashcards for core concepts. 
 
 ## Our Solution
-Omni-Syllabus-Agent automates the entire academic prep pipeline. Simply drop a syllabus PDF into our Streamlit app, and our dual-agent system takes over:
+Syllabus-to-Study Agent automates the entire academic prep pipeline. Simply drop a syllabus PDF into our Streamlit app, and our dual-agent system takes over:
 1. **The Calendar Agent:** Extracts every exam, quiz, and project deadline, instantly formatting them into a ready-to-import Google Calendar `.csv`.
 2. **The Flashcard Agent:** Scans for core terminology and definitions, generating a ready-to-import Anki Deck.
 
